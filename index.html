@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Japanese Days of the Week Study</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    body { font-family: sans-serif; background: #f8f8ff; color: #222; max-width: 600px; margin: 2rem auto; }
+    h1, h2 { text-align: center; }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    th, td { border: 1px solid #aaa; padding: 0.5rem; text-align: center; }
+    button { display: block; margin: 1rem auto; padding: 0.5rem 1.5rem; }
+    #quiz-container { min-height: 80px; }
+  </style>
+</head>
+<body>
+  <h1>Japanese Days of the Week</h1>
+  <section id="study-guide">
+    <h2>Study Guide</h2>
+    <table>
+      <tr><th>Kanji</th><th>Kana</th><th>Romaji</th><th>English</th></tr>
+      <tr><td>月曜日</td><td>げつようび</td><td>getsuyoubi</td><td>Monday</td></tr>
+      <tr><td>火曜日</td><td>かようび</td><td>kayoubi</td><td>Tuesday</td></tr>
+      <tr><td>水曜日</td><td>すいようび</td><td>suiyoubi</td><td>Wednesday</td></tr>
+      <tr><td>木曜日</td><td>もくようび</td><td>mokuyoubi</td><td>Thursday</td></tr>
+      <tr><td>金曜日</td><td>きんようび</td><td>kinyoubi</td><td>Friday</td></tr>
+      <tr><td>土曜日</td><td>どようび</td><td>doyoubi</td><td>Saturday</td></tr>
+      <tr><td>日曜日</td><td>にちようび</td><td>nichiyoubi</td><td>Sunday</td></tr>
+    </table>
+  </section>
+  <section id="quiz-section">
+    <h2>Quiz Game</h2>
+    <div id="quiz-container"></div>
+    <button onclick="startQuiz()">Start Quiz</button>
+  </section>
+  <script>
+    const days = [
+      {kanji: "月曜日", kana: "げつようび", romaji: "getsuyoubi", english: "Monday"},
+      {kanji: "火曜日", kana: "かようび", romaji: "kayoubi", english: "Tuesday"},
+      {kanji: "水曜日", kana: "すいようび", romaji: "suiyoubi", english: "Wednesday"},
+      {kanji: "木曜日", kana: "もくようび", romaji: "mokuyoubi", english: "Thursday"},
+      {kanji: "金曜日", kana: "きんようび", romaji: "kinyoubi", english: "Friday"},
+      {kanji: "土曜日", kana: "どようび", romaji: "doyoubi", english: "Saturday"},
+      {kanji: "日曜日", kana: "にちようび", romaji: "nichiyoubi", english: "Sunday"}
+    ];
+    let quizIndex = 0, score = 0;
+    function startQuiz() {
+      quizIndex = 0;
+      score = 0;
+      document.getElementById('quiz-container').innerHTML = '';
+      nextQuestion();
+    }
+    function nextQuestion() {
+      if (quizIndex >= days.length) {
+        document.getElementById('quiz-container').innerHTML = `<p>Quiz complete! Score: ${score}/${days.length}</p>`;
+        return;
+      }
+      const day = days[quizIndex];
+      const question = `What is "${day.english}" in Japanese (kanji)?`;
+      document.getElementById('quiz-container').innerHTML = `
+        <p>${question}</p>
+        <input id="answer" placeholder="Type kanji here">
+        <button onclick="checkAnswer()">Submit</button>
+        <div id="result"></div>
+      `;
+    }
+    function checkAnswer() {
+      const answer = document.getElementById('answer').value.trim();
+      const day = days[quizIndex];
+      const resultDiv = document.getElementById('result');
+      if (answer === day.kanji) {
+        resultDiv.textContent = "Correct!";
+        score++;
+      } else {
+        resultDiv.textContent = `Incorrect. The answer is ${day.kanji} (${day.kana})`;
+      }
+      quizIndex++;
+      setTimeout(nextQuestion, 1200);
+    }
+  </script>
+</body>
+</html>
